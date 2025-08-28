@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Paleta de colores personalizada */
+:root {
+  /* Colores primarios (Azules) */
+  --color-blue-primary: #2563EB;
+  --color-blue-dark: #1E40AF;
+  --color-blue-light: #3B82F6;
+  --color-blue-sky: #60A5FA;
+  
+  /* Colores de estado (Verdes) */
+  --color-green-success: #10B981;
+  --color-green-available: #22C55E;
+  --color-green-light: #86EFAC;
+  
+  /* Colores de alerta (Rojos/Naranjas) */
+  --color-red-alert: #EF4444;
+  --color-red-dark: #DC2626;
+  --color-orange-reserve: #F97316;
+  
+  /* Colores neutros */
+  --color-gray-dark: #374151;
+  --color-gray-medium: #6B7280;
+  --color-gray-light: #F3F4F6;
+  --color-gray-border: #E5E7EB;
+  --color-white: #FFFFFF;
+}
+
+/* Estilos personalizados mejorados */
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-[#F3F4F6] to-[#E5E7EB] text-[#374151] min-h-screen;
+  }
+  
+  h1 {
+    @apply text-3xl font-bold text-[#374151] mb-6;
+  }
+  
+  h2 {
+    @apply text-2xl font-semibold text-[#374151] mb-4;
+  }
+  
+  h3 {
+    @apply text-xl font-semibold text-[#374151] mb-3;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 bg-[#2563EB] text-white rounded-md hover:bg-[#1E40AF] focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2 transition-all duration-300 font-medium shadow-sm;
+  }
+  
+  .btn-secondary {
+    @apply px-4 py-2 bg-[#6B7280] text-white rounded-md hover:bg-[#374151] focus:ring-2 focus:ring-[#6B7280] focus:ring-offset-2 transition-all duration-300 font-medium shadow-sm;
+  }
+  
+  .btn-success {
+    @apply px-4 py-2 bg-[#10B981] text-white rounded-md hover:bg-[#22C55E] focus:ring-2 focus:ring-[#86EFAC] focus:ring-offset-2 transition-all duration-300 font-medium shadow-sm;
+  }
+  
+  .btn-danger {
+    @apply px-4 py-2 bg-[#EF4444] text-white rounded-md hover:bg-[#DC2626] focus:ring-2 focus:ring-[#EF4444] focus:ring-offset-2 transition-all duration-300 font-medium shadow-sm;
+  }
+  
+  .btn-warning {
+    @apply px-4 py-2 bg-[#F97316] text-white rounded-md hover:bg-[#EA580C] focus:ring-2 focus:ring-[#F97316] focus:ring-offset-2 transition-all duration-300 font-medium shadow-sm;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-md p-6 border border-[#E5E7EB] hover:shadow-lg transition-all duration-300;
+  }
+  
+  .input {
+    @apply w-full px-4 py-2 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-[#2563EB] transition-colors duration-200;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6;
+  }
+  
+  .stat-card {
+    @apply bg-white rounded-xl shadow-md p-6 border-l-4 hover:shadow-lg transition-all duration-300;
+  }
+  
+  /* Estados específicos para espacios de parking */
+  .space-available {
+    @apply bg-[#86EFAC] border-[#22C55E] text-[#374151];
+  }
+  
+  .space-occupied {
+    @apply bg-[#FCA5A5] border-[#EF4444] text-[#374151];
+  }
+  
+  .space-reserved {
+    @apply bg-[#FDBA74] border-[#F97316] text-[#374151];
+  }
+  
+  .space-maintenance {
+    @apply bg-[#D1D5DB] border-[#6B7280] text-[#374151];
+  }
+  
+  .form-group {
+    @apply mb-4;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+  
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .transition-custom {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .glass-effect {
+    @apply bg-white bg-opacity-80 backdrop-blur-md;
+  }
+  
+  .hover-lift {
+    @apply hover:-translate-y-1 transition-transform duration-300;
+  }
+  
+  .bg-primary {
+    @apply bg-[#2563EB];
+  }
+  
+  .bg-primary-dark {
+    @apply bg-[#1E40AF];
+  }
+  
+  .bg-primary-light {
+    @apply bg-[#3B82F6];
+  }
+  
+  .bg-success {
+    @apply bg-[#10B981];
+  }
+  
+  .bg-danger {
+    @apply bg-[#EF4444];
+  }
+  
+  .bg-warning {
+    @apply bg-[#F97316];
+  }
+  
+  .text-primary {
+    @apply text-[#2563EB];
+  }
+  
+  .border-primary {
+    @apply border-[#2563EB];
+  }
+  
+  .gradient-primary {
+    @apply bg-gradient-to-r from-[#2563EB] to-[#3B82F6];
+  }
+  
+  .gradient-nav {
+    @apply bg-gradient-to-r from-[#1E40AF] to-[#2563EB];
+  }
+  
+  /* Estilos para el menú lateral */
+  .sidebar-expanded {
+    @apply w-64 transition-all duration-300 ease-in-out;
+  }
+  
+  .sidebar-collapsed {
+    @apply w-20 transition-all duration-300 ease-in-out;
+  }
+  
+  .sidebar-link {
+    @apply flex items-center rounded-md text-sm font-medium transition-all duration-200 mb-1;
+  }
+  
+  .sidebar-link-active {
+    @apply bg-[#2563EB] text-white;
+  }
+  
+  .sidebar-link-inactive {
+    @apply text-gray-300 hover:bg-[#3B82F6]/50 hover:text-white;
+  }
+}
