@@ -12,10 +12,10 @@ const Layout = () => {
       <SidebarMenu isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       
       {/* Main Content */}
-      <div className="flex-1 flex flex-col ml-0 md:ml-20">
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-0 md:ml-20'}`}>
         <main className="flex-grow bg-gradient-to-br from-[#F3F4F6] to-[#E5E7EB] min-h-screen">
-          <div className="py-6 px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-6">
+          <div className="container-custom">
+            <div className="flex items-center justify-between mb-6 topbar rounded-xl bg-white/70 shadow-sm border border-[#E5E7EB] px-4 sm:px-6 py-3">
               <button 
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="p-2 rounded-md bg-white shadow-md text-[#1E40AF] hover:bg-[#EFF6FF] transition-all duration-200 hover:shadow-lg"
