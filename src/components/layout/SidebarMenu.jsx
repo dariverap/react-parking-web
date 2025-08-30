@@ -24,7 +24,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
   const navigation = [];
   
   if (currentUser) {
-    if (currentUser.rol === 'admin') {
+    if (currentUser.rol === 'admin_general' || currentUser.rol === 'admin_parking') {
       navigation.push(
         { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon, current: location.pathname === '/admin/dashboard' },
         { name: 'Parkings', href: '/admin/parkings', icon: BuildingOfficeIcon, current: location.pathname === '/admin/parkings' },
@@ -85,7 +85,7 @@ const SidebarMenu = ({ isOpen, setIsOpen }) => {
               <div className="ml-3">
                 <p className="text-sm font-medium text-white">{currentUser.nombre || 'Usuario'}</p>
                 <p className="text-xs text-gray-300">
-                  {currentUser.rol === 'admin' ? 'Administrador' : 'Empleado'}
+                  {currentUser.rol === 'admin_general' ? 'Administrador General' : currentUser.rol === 'admin_parking' ? 'Administrador de Parking' : 'Empleado'}
                 </p>
               </div>
             )}

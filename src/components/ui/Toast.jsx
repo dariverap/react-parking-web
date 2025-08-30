@@ -100,7 +100,7 @@ export { Toast, ToastContainer };
 export const useToast = () => {
   const [toasts, setToasts] = React.useState([]);
 
-  const showToast = (message, options = {}) => {
+  const showToast = React.useCallback((message, options = {}) => {
     const id = Date.now().toString();
     const { type = 'info', duration = 5000 } = options;
 
@@ -110,19 +110,19 @@ export const useToast = () => {
     ]);
 
     return id;
-  };
+  }, []);
 
-  const removeToast = (id) => {
+  const removeToast = React.useCallback((id) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
-  };
+  }, []);
 
-  const toast = {
+  const toast = React.useMemo(() => ({
     success: (message, options) => showToast(message, { ...options, type: 'success' }),
     error: (message, options) => showToast(message, { ...options, type: 'error' }),
     warning: (message, options) => showToast(message, { ...options, type: 'warning' }),
     info: (message, options) => showToast(message, { ...options, type: 'info' }),
     dismiss: removeToast,
-  };
+  }), [showToast, removeToast]);
 
   return { toasts, toast, removeToast };
 };

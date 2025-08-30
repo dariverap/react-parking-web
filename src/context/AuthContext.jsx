@@ -65,10 +65,18 @@ export const AuthProvider = ({ children }) => {
       const user = response.data?.usuario || response.usuario || response.user;
       console.log('Usuario para redirección:', user); // Depuración
       
-      if (user && user.rol === 'admin') {
+      if (user && (user.rol === 'admin_general' || user.rol === 'admin_parking')) {
         navigate('/admin/dashboard');
       } else if (user && user.rol === 'empleado') {
         navigate('/employee/dashboard');
+      } else if (user && user.rol === 'cliente') {
+        // Cliente no tiene acceso a la web; cerrar sesión por seguridad
+        localStorage.removeItem('token');
+        setCurrentUser(null);
+        setError('Tu rol (cliente) no tiene acceso a la web. Usa la app móvil.');
+        navigate('/login');
+        // Propagar error para que la pantalla de login muestre el mensaje
+        throw new Error('Tu rol (cliente) no tiene acceso a la web. Usa la app móvil.');
       } else {
         console.error('Rol de usuario no reconocido:', user);
       }
@@ -97,6 +105,8 @@ export const AuthProvider = ({ children }) => {
     navigate('/login');
   };
 
+  const clearError = () => setError(null);
+
   const value = {
     currentUser,
     loading,
@@ -104,6 +114,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    clearError,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

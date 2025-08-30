@@ -6,6 +6,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 // Páginas públicas
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 
 // Páginas de administrador
 import DashboardAdmin from './pages/admin/DashboardAdmin';
@@ -30,19 +32,24 @@ function App() {
           {/* Rutas públicas */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           
           {/* Redirigir la ruta raíz a login */}
           <Route path="/" element={<Navigate to="/login" replace />} />
           
           {/* Rutas protegidas para administradores */}
-          <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+          <Route element={<ProtectedRoute allowedRoles={['admin_general', 'admin_parking']} />}>
             <Route element={<Layout />}>
               <Route path="/admin/dashboard" element={<DashboardAdmin />} />
               <Route path="/admin/parkings" element={<ParkingsPage />} />
               <Route path="/admin/parkings/:id" element={<ParkingDetail />} />
               <Route path="/admin/parkings/new" element={<ParkingForm />} />
               <Route path="/admin/parkings/edit/:id" element={<ParkingForm />} />
-              <Route path="/admin/usuarios" element={<UsuariosPage />} />
+              {/* Solo admin_general puede gestionar usuarios */}
+              <Route element={<ProtectedRoute allowedRoles={['admin_general']} />}>
+                <Route path="/admin/usuarios" element={<UsuariosPage />} />
+              </Route>
               <Route path="/admin/reportes" element={<ReportesPage />} />
               <Route path="/admin/tarifas" element={<TarifasPage />} />
             </Route>

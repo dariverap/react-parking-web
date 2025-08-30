@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { ToastContainer, useToast } from '../../components/ui/Toast';
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({
@@ -9,8 +10,11 @@ const LoginPage = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
-  const { login } = useAuth();
+  const [fieldErrors, setFieldErrors] = useState({ email: '', password: '' });
+  const emailRegex = useMemo(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/, []);
+
+  const { login, error: authError, clearError } = useAuth();
+  const { toasts, toast, removeToast } = useToast();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +26,19 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Validaciones de campos
+    const newFieldErrors = { email: '', password: '' };
+    if (!credentials.email) newFieldErrors.email = 'El correo es requerido.';
+    else if (!emailRegex.test(credentials.email)) newFieldErrors.email = 'Formato de correo inválido.';
+    if (!credentials.password) newFieldErrors.password = 'La contraseña es requerida.';
+    else if (credentials.password.length < 6) newFieldErrors.password = 'Mínimo 6 caracteres.';
+
+    setFieldErrors(newFieldErrors);
+    if (newFieldErrors.email || newFieldErrors.password) {
+      toast.warning('Revisa los datos del formulario.');
+      return;
+    }
+
     setLoading(true);
     setError('');
     
@@ -29,11 +46,22 @@ const LoginPage = () => {
       await login(credentials);
       // La redirección se maneja en el AuthContext
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al iniciar sesión. Verifica tus credenciales.');
+      const msg = err.response?.data?.message || err.message || 'Error al iniciar sesión. Verifica tus credenciales.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
   };
+
+  // Mostrar errores provenientes del AuthContext (por ejemplo, rol cliente)
+  useEffect(() => {
+    if (authError) {
+      setError(authError);
+      toast.error(authError);
+      clearError();
+    }
+  }, [authError]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F3F4F6] to-[#E5E7EB] py-12 px-4 sm:px-6 lg:px-8">
@@ -78,6 +106,7 @@ const LoginPage = () => {
                 value={credentials.email}
                 onChange={handleChange}
               />
+              {fieldErrors.email && <p className="mt-1 text-sm text-red-600">{fieldErrors.email}</p>}
             </div>
             <div className="form-group">
               <label htmlFor="password" className="form-label">Contraseña</label>
@@ -92,6 +121,7 @@ const LoginPage = () => {
                 value={credentials.password}
                 onChange={handleChange}
               />
+              {fieldErrors.password && <p className="mt-1 text-sm text-red-600">{fieldErrors.password}</p>}
             </div>
           </div>
 
@@ -118,7 +148,14 @@ const LoginPage = () => {
               ¿No tienes cuenta? Regístrate como administrador
             </Link>
           </div>
+          <div className="text-sm text-center mt-2">
+            <Link to="/forgot-password" className="font-medium text-[#2563EB] hover:text-[#3B82F6] hover-lift inline-block">
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
         </form>
+        {/* Toasts de la página */}
+        <ToastContainer toasts={toasts} onClose={removeToast} />
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ const Navbar = () => {
   const navigation = [];
   
   if (currentUser) {
-    if (currentUser.rol === 'admin') {
+    if (currentUser.rol === 'admin_general' || currentUser.rol === 'admin_parking') {
       navigation.push(
         { name: 'Dashboard', href: '/admin/dashboard', current: location.pathname === '/admin/dashboard' },
         { name: 'Parkings', href: '/admin/parkings', current: location.pathname === '/admin/parkings' },

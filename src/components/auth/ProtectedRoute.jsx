@@ -20,15 +20,18 @@ const ProtectedRoute = ({ allowedRoles }) => {
 
   // Si se especifican roles permitidos, verificar que el usuario tenga uno de esos roles
   if (allowedRoles && !allowedRoles.includes(currentUser.rol)) {
-    // Redirigir según el rol del usuario
-    if (currentUser.rol === 'admin') {
-      return <Navigate to="/admin/dashboard" replace />;
-    } else if (currentUser.rol === 'empleado') {
-      return <Navigate to="/employee/dashboard" replace />;
-    } else {
-      // Si el rol no es reconocido, redirigir al login
+    // Reglas de acceso: cliente no entra a la web
+    if (currentUser.rol === 'cliente') {
       return <Navigate to="/login" replace />;
     }
+    // Redirigir según roles válidos
+    if (currentUser.rol === 'empleado') {
+      return <Navigate to="/employee/dashboard" replace />;
+    }
+    if (currentUser.rol === 'admin_general' || currentUser.rol === 'admin_parking') {
+      return <Navigate to="/admin/dashboard" replace />;
+    }
+    return <Navigate to="/login" replace />;
   }
 
   // Si el usuario está autenticado y tiene el rol adecuado, mostrar el contenido protegido

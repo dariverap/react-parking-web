@@ -44,7 +44,7 @@ const authService = {
     if (!token) return null;
 
     try {
-      const response = await axios.get(`${API_URL}/auth/me`, {
+      const response = await axios.get(`${API_URL}/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -52,6 +52,28 @@ const authService = {
       console.error('Error al obtener usuario actual:', error.response?.data || error.message);
       localStorage.removeItem('token'); // Eliminar token si es inválido
       return null;
+    }
+  },
+
+  // Solicitar email de recuperación
+  forgotPassword: async (email) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/forgot-password`, { email });
+      return response.data;
+    } catch (error) {
+      console.error('Error en forgotPassword:', error.response?.data || error.message);
+      throw error;
+    }
+  },
+
+  // Restablecer contraseña con access_token del enlace de Supabase
+  resetPassword: async ({ access_token, newPassword }) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/reset-password`, { access_token, newPassword });
+      return response.data;
+    } catch (error) {
+      console.error('Error en resetPassword:', error.response?.data || error.message);
+      throw error;
     }
   },
 };
