@@ -145,7 +145,7 @@ const LoginPage = () => {
           
           <div className="text-sm text-center mt-6">
             <Link to="/register" className="font-medium text-[#2563EB] hover:text-[#3B82F6] hover-lift inline-block">
-              ¿No tienes cuenta? Regístrate como administrador
+              ¿No tienes cuenta? Regístrate
             </Link>
           </div>
           <div className="text-sm text-center mt-2">

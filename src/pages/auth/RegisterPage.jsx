@@ -10,7 +10,7 @@ const RegisterPage = () => {
     password: '',
     confirmPassword: '',
     telefono: '',
-    rol: 'admin' // Por defecto, solo los administradores pueden registrarse aquí
+    rol: 'cliente' // Por defecto, solo los administradores pueden registrarse aquí
   });
   
   const [loading, setLoading] = useState(false);
@@ -55,7 +55,7 @@ const RegisterPage = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Registro de Administrador
+            Registro
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Crea tu cuenta para gestionar el sistema de parkings
